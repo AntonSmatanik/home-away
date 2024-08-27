@@ -1,15 +1,17 @@
 import FavoriteToggleButton from "@/components/card/FavoriteToggleButton";
 import PropertyRating from "@/components/card/PropertyRating";
 import Amenities from "@/components/properties/Amenities";
-import BookingCalendar from "@/components/properties/BookingCalendar";
 import BreadCrumbs from "@/components/properties/BreadCrumbs";
 import Description from "@/components/properties/Description";
 import ImageContainer from "@/components/properties/ImageContainer";
 import PropertyDetails from "@/components/properties/PropertyDetails";
 import UserInfo from "@/components/properties/UserInfo";
+import { PropertyReviews } from "@/components/reviews/PropertyReviews";
+import SubmitReview from "@/components/reviews/SubmitReview";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { fetchPropertyDetails } from "@/utils/actions";
+import { fetchPropertyDetails, findExistingReview } from "@/utils/actions";
+import { auth } from "@clerk/nextjs/server";
 import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 import ShareButton from "../ShareButton";
@@ -24,6 +26,11 @@ const PropertyDetailsPage = async ({ params }: PropertyDetailsPageType) => {
   const property = await fetchPropertyDetails(params.id);
   if (!property) redirect("/");
 
+  const { userId } = auth();
+  const isNotOwner = property.profile.clerkId !== userId;
+  const reviewDoesNotExist =
+    userId && isNotOwner && !(await findExistingReview(userId, property.id));
+
   const { baths, bedrooms, beds, guests } = property;
   const details = { baths, bedrooms, beds, guests };
 
@@ -32,6 +39,14 @@ const PropertyDetailsPage = async ({ params }: PropertyDetailsPageType) => {
     {
       ssr: false,
       loading: () => <Skeleton className="h-[400px] w-full" />,
+    }
+  );
+
+  const DynamicBookingWrapper = dynamic(
+    () => import("@/components/booking/BookingWrapper"),
+    {
+      ssr: false,
+      loading: () => <Skeleton className="h-[200px] w-full" />,
     }
   );
 
@@ -63,9 +78,15 @@ const PropertyDetailsPage = async ({ params }: PropertyDetailsPageType) => {
           <DynamicMap countryCode={property.country} />
         </div>
         <div className="lg:col-span-4 flex flex-col items-center">
-          <BookingCalendar />
+          <DynamicBookingWrapper
+            propertyId={property.id}
+            price={property.price}
+            bookings={property.bookings}
+          />
         </div>
       </section>
+      {reviewDoesNotExist && <SubmitReview propertyId={property.id} />}
+      <PropertyReviews propertyId={property.id} />
     </section>
   );
 };
