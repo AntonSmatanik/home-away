@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 
 export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
   const { pending } = useFormStatus();
+
   return (
     <Button
       type="submit"

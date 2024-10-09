@@ -18,6 +18,7 @@ const CreatePropertyPage = () => {
       </h1>
       <div className="border p-8 rounded-md">
         <h3 className="text-lg mb-4 font-medium">General Info</h3>
+
         <FormContainer action={createPropertyAction}>
           <div className="grid md:grid-cols-2 gap-8 mb-4">
             <FormInput

@@ -75,13 +75,14 @@ const RentalsPage = async () => {
   );
 };
 
-function DeleteRental({ propertyId }: { propertyId: string }) {
+const DeleteRental = ({ propertyId }: { propertyId: string }) => {
   const deleteRental = deleteRentalAction.bind(null, { propertyId });
+
   return (
     <FormContainer action={deleteRental}>
       <IconButton actionType="delete" />
     </FormContainer>
   );
-}
+};
 
 export default RentalsPage;

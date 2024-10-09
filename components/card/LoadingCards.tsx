@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function SkeletonCard() {
+export const SkeletonCard = () => {
   return (
     <div>
       <Skeleton className="h-[300px] rounded-md" />
@@ -8,7 +8,7 @@ export function SkeletonCard() {
       <Skeleton className="h-4 mt-2 w-1/2" />
     </div>
   );
-}
+};
 
 const LoadingCards = () => {
   return (

@@ -6,6 +6,7 @@ import { useProperty } from "@/utils/store";
 
 const BookingForm = () => {
   const { range, price } = useProperty((state) => state);
+
   const checkIn = range?.from as Date;
   const checkOut = range?.to as Date;
 
@@ -31,13 +32,11 @@ const BookingForm = () => {
   );
 };
 
-function FormRow({ label, amount }: { label: string; amount: number }) {
-  return (
-    <p className="flex justify-between text-sm mb-2">
-      <span>{label}</span>
-      <span>{formatCurrency(amount)}</span>
-    </p>
-  );
-}
+const FormRow = ({ label, amount }: { label: string; amount: number }) => (
+  <p className="flex justify-between text-sm mb-2">
+    <span>{label}</span>
+    <span>{formatCurrency(amount)}</span>
+  </p>
+);
 
 export default BookingForm;

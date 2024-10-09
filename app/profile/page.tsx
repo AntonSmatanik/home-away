@@ -13,7 +13,7 @@ const ProfilePage = async () => {
 
   return (
     <section>
-      <h1 className="text-2xl font-semibold mb-8 capitalize">new user</h1>
+      <h1 className="text-2xl font-semibold mb-8 capitalize">user info</h1>
       <div className="border p-8 rounded-md max-w-lg">
         <ImageInputContainer
           image={profile.profileImage}

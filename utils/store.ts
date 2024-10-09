@@ -1,6 +1,7 @@
 import { DateRange } from "react-day-picker";
 import { create } from "zustand";
 import { Booking } from "./types";
+
 // Define the state's shape
 type PropertyState = {
   propertyId: string;

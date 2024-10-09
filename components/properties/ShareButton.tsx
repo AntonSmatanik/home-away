@@ -32,6 +32,7 @@ function ShareButton({
           <LuShare2 />
         </Button>
       </PopoverTrigger>
+
       <PopoverContent
         side="top"
         align="end"
